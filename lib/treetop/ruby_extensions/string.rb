@@ -20,21 +20,20 @@ class String
   end
 
   # The following methods are lifted from Facets 2.0.2
+  # To avoid conflict namespace 'index' with ActiveSupport 4.0.0.rc1
   def tabto(n)
     if self =~ /^( *)\S/
-      indent(n - $1.length)
+      ttindent(n - $1.length)
     else
       self
     end
   end
 
-  unless method_defined?(:indent)
-    def indent(n)
-      if n >= 0
-        gsub(/^/, ' ' * n)
-      else
-        gsub(/^ {0,#{-n}}/, "")
-      end
+  def ttindent(n)
+    if n >= 0
+      gsub(/^/, ' ' * n)
+    else
+      gsub(/^ {0,#{-n}}/, "")
     end
   end
 
