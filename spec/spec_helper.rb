@@ -63,10 +63,9 @@ module Treetop
     def parse_multibyte(input, options = {})
       require 'active_support/all'
 
-      if RUBY_VERSION !~ /^1.9/ && 'NONE' == $KCODE then $KCODE = 'UTF8' end
+      if (RUBY_VERSION !~ /^1\.9/ || RUBY_VERSION !~ /^2\./) && 'NONE' == $KCODE then $KCODE = 'UTF8' end
       # rspec 1.3 used to do something similar (set it to 'u') that we need
       # for activerecord multibyte wrapper to kick in (1.8 only? @todo)
-
       parse(input.mb_chars, options)
     end
 
