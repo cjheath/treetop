@@ -1518,7 +1518,7 @@ module Treetop
 
       module Primary7
         def compile(address, builder, parent_expression=nil)
-	    STDERR.puts "Extraneous module ignored with nested atomic: #{input[interval].inspect}" if node_class_declarations.inline_modules.size > 0 && atomic.inline_modules.size > 0
+	    # STDERR.puts "Extraneous module ignored with nested atomic: #{input[interval].inspect}" if node_class_declarations.inline_modules.size > 0 && atomic.inline_modules.size > 0
           atomic.compile(address, builder, self)
         end
 
