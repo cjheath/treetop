@@ -3,7 +3,7 @@ module Treetop
     class CompiledParser
       include Treetop::Runtime
 
-      attr_reader :input, :index, :max_terminal_failure_index
+      attr_reader :input, :index, :max_terminal_failure_index, :terminal_failures
       attr_writer :root
       attr_accessor :consume_all_input
       alias :consume_all_input? :consume_all_input
@@ -50,15 +50,6 @@ module Treetop
                 " at line #{failure_line}, column #{failure_column} (byte #{failure_index+1})" +
                 (failure_index > 0 ? " after #{input[index...failure_index]}" : '')
       end
-
-      def terminal_failures
-        if @terminal_failures.empty? || @terminal_failures[0].is_a?(TerminalParseFailure)
-          @terminal_failures
-        else
-          @terminal_failures.map! {|tf_ary| TerminalParseFailure.new(*tf_ary) }
-        end
-      end
-
 
       protected
 
@@ -118,7 +109,7 @@ module Treetop
           @max_terminal_failure_index = index
           @terminal_failures = []
         end
-        @terminal_failures << [index, expected_string, unexpected]
+        @terminal_failures << TerminalParseFailure.new(index, expected_string, unexpected)
         return nil
       end
     end
