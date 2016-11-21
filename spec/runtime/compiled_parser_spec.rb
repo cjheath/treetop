@@ -150,4 +150,42 @@ module CompiledParserSpec
     end
   end
 
+  describe Runtime::CompiledParser, "A grammar with sempred subtree walks" do
+
+    testing_grammar %{
+
+      grammar Bad_Parenting
+
+        rule root
+          z1 &{ |e| e[0].elements ; false } / z2 &{ |e| e[0].elements; false } / z3
+        end
+
+        rule z1
+          zero "1"
+        end
+
+        rule z2
+          zero "1"
+        end
+
+        rule z3
+          z1 "2"
+        end
+
+        rule zero
+         "0"
+        end
+
+      end
+    }
+    
+    it "ensures that child-node #parent points to actual parse-tree parent" do
+      tree=parser_class_under_test.new.parse('012')
+      pending("Need fix for one-time elements construction") do
+        tree.elements[0].elements[0].parent.should == tree.elements[0]
+      end
+    end
+
+  end
+
 end
