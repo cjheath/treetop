@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://github.com/cjheath/treetop"
   spec.licenses = ["MIT"]
 
-  spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(spec|website|script|\.|benchmark)}) }
+  spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(spec|Treetop.tmbundle|History.txt|website|script|\.|benchmark)}) }
   spec.executables = ["tt"]
   spec.require_paths = ["lib"]
   spec.extra_rdoc_files = [
