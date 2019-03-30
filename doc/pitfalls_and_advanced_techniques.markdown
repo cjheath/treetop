@@ -49,3 +49,9 @@ This says that `'end'` must be followed by a space, but this space is not consum
     end
     
 In general, when the syntax gets tough, it helps to focus on what you really mean. A keyword is a character not followed by another character that isn't a space.
+
+## Poor Performance with Large Unicode Strings
+
+Treetop may perform poorly when parsing very large (more than 100KB) unicode strings. This is due to the fact that substring lookups on Ruby unicode strings are linear-time operations, and not constant-time operations like they are on ASCII encoded strings. This means that parse times for larger strings can be exponentially worse than for smaller strings.
+
+If your input and grammar only expect ASCII strings, you can achieve siginficant performance improvements for large strings by re-encoding them to ASCII using `input.encode(Encoding::US_ASCII)`. See [this issue on GitHub](https://github.com/cjheath/treetop/issues/31) for more information and other possible workarounds for unicode strings.
