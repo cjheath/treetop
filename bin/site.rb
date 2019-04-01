@@ -1,6 +1,5 @@
-require 'rubygems'
 require 'erector'
-require "#{File.dirname(__FILE__)}/sitegen"
+require_relative 'sitegen'
 require 'fileutils'
 require 'bluecloth'
 

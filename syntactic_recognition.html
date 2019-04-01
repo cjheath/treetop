@@ -42,15 +42,13 @@ end
 </ul>
 
 
-<p>A grammar may be surrounded by one or more nested <code>module</code> or <code>class</code> statements, which provides a namespace for the generated Ruby parser. Note that you cannot specify a superclass for a class, so if your class has a superclass, it must be declared elsewhere and loaded first.</p>
+<p>A grammar may be surrounded by one or more nested <code>module</code> statements, which provides a namespace for the generated Ruby parser.</p>
 
-<p>Treetop will emit a module called <code>GrammarName</code> and a parser class called <code>GrammarNameParser</code> (in the namespace, if specified).</p>
+<p>Treetop will emit a module called <code>GrammarName</code> and a parser class called <code>GrammarNameParser</code> (in the module namespace, if specified).</p>
 
 <h1>Parsing Expressions</h1>
 
 <p>Each rule associates a name with a <em>parsing expression</em>. Parsing expressions are a generalization of vanilla regular expressions. Their key feature is the ability to reference other expressions in the grammar by name.</p>
-
-<p>Treetop parsers will try to match the first rule defined in the grammar, unless you pass an optional parameter to set a different top rule.</p>
 
 <h2>Terminal Symbols</h2>
 
@@ -277,7 +275,4 @@ then continue by trying to match <code>baz</code>.</p>
 tried at which locations in the input, and what the result was. This process, called memoization,
 requires that the rule would produce the same result (if run again) as it produced the first time when
 the result was remembered. If you violate this principle in your semantic predicates, be prepared to
-fight Cerberus before you're allowed out of Hades again.</p>
-
-<p>There's an example of how to use semantic predicates to parse a language with white-space indented blocks
-in the examples directory.</p></div></div></div><div id="bottom"></div></body></html>
+fight Cerberus before you're allowed out of Hades again.</p></div></div></div><div id="bottom"></div></body></html>

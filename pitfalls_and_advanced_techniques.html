@@ -43,7 +43,7 @@ rule strong
 end
 
 rule em
-  '*' (strong / !'*' . / '\*')+ '*'
+  '**' (strong / !'*' . / '\*')+ '**'    
 end
 </code></pre>
 
@@ -65,4 +65,10 @@ end
 end
 </code></pre>
 
-<p>In general, when the syntax gets tough, it helps to focus on what you really mean. A keyword is a character not followed by another character that isn't a space.</p></div></div></div><div id="bottom"></div></body></html>
+<p>In general, when the syntax gets tough, it helps to focus on what you really mean. A keyword is a character not followed by another character that isn't a space.</p>
+
+<h2>Poor Performance with Large Unicode Strings</h2>
+
+<p>Treetop may perform poorly when parsing very large (more than 100KB) unicode strings. This is due to the fact that substring lookups on Ruby unicode strings are linear-time operations, and not constant-time operations like they are on ASCII encoded strings. This means that parse times for larger strings can be exponentially worse than for smaller strings.</p>
+
+<p>If your input and grammar only expect ASCII strings, you can achieve significant performance improvements for large strings by re-encoding them to ASCII using <code>input.encode(Encoding::US_ASCII)</code>. See <a href="https://github.com/cjheath/treetop/issues/31">this issue on GitHub</a> for more information and other possible workarounds for unicode strings.</p></div></div></div><div id="bottom"></div></body></html>

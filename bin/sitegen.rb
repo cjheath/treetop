@@ -1,3 +1,9 @@
+class String
+  def underscore
+    gsub(/([a-z])([A-Z])/,'\1_\2').downcase
+  end
+end
+
 class Layout < Erector::Widget
 
   class << self
@@ -41,12 +47,12 @@ class Layout < Erector::Widget
     end
 
     def site_dir
-      File.join(File.dirname(__FILE__), "site")
+      File.join(File.dirname(__FILE__), "..")
     end
   end
 
   def bluecloth(relative_path)
-    File.open(File.join(File.dirname(__FILE__), relative_path)) do |file|
+    File.open(relative_path) do |file|
       rawtext BlueCloth.new(file.read).to_html
     end
   end
