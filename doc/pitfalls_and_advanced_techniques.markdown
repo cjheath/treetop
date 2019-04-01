@@ -30,7 +30,7 @@ Say I want to parse a diabolical wiki syntax in which the following interpretati
     end
     
     rule em
-      '**' (strong / !'*' . / '\*')+ '**'    
+      '*' (strong / !'*' . / '\*')+ '*'
     end
     
 Emphasized text is allowed within strong text by virtue of `em` being the first alternative. Since `em` will only successfully parse if a matching `*` is found, it is permitted, but other than that, no `*` characters are allowed unless they are escaped.

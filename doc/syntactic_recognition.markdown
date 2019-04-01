@@ -32,12 +32,14 @@ The main keywords are:
 
 * `rule` : This defines a parsing rule within the grammar. It is followed by a name by which this rule can be referenced within other rules. It is then followed by a parsing expression defining the rule.
 
-A grammar may be surrounded by one or more nested `module` statements, which provides a namespace for the generated Ruby parser.
+A grammar may be surrounded by one or more nested `module` or `class` statements, which provides a namespace for the generated Ruby parser. Note that you cannot specify a superclass for a class, so if your class has a superclass, it must be declared elsewhere and loaded first.
 
-Treetop will emit a module called `GrammarName` and a parser class called `GrammarNameParser` (in the module namespace, if specified).
+Treetop will emit a module called `GrammarName` and a parser class called `GrammarNameParser` (in the namespace, if specified).
 
 #Parsing Expressions
 Each rule associates a name with a _parsing expression_. Parsing expressions are a generalization of vanilla regular expressions. Their key feature is the ability to reference other expressions in the grammar by name.
+
+Treetop parsers will try to match the first rule defined in the grammar, unless you pass an optional parameter to set a different top rule.
 
 ##Terminal Symbols
 ###Strings
@@ -213,3 +215,6 @@ tried at which locations in the input, and what the result was. This process, ca
 requires that the rule would produce the same result (if run again) as it produced the first time when
 the result was remembered. If you violate this principle in your semantic predicates, be prepared to
 fight Cerberus before you're allowed out of Hades again.
+
+There's an example of how to use semantic predicates to parse a language with white-space indented blocks
+in the examples directory.
