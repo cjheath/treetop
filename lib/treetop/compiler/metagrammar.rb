@@ -4231,11 +4231,13 @@ module Treetop
         r0
       end
 
+
+      class Parser < Treetop::Runtime::CompiledParser
+        include Metagrammar
+      end
     end
 
-    class MetagrammarParser < Treetop::Runtime::CompiledParser
-      include Metagrammar
-    end
+    MetagrammarParser = Metagrammar::Parser
 
   end
 end
