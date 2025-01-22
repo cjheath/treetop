@@ -69,6 +69,7 @@ module Treetop
     end
 
     def parse_multibyte(input, options = {})
+      require 'logger'
       require 'active_support/all'
 
       if RUBY_VERSION !~ /^(1\.9|2\.)/ && 'NONE' == $KCODE then $KCODE = 'UTF8' end
