@@ -50,7 +50,7 @@ describe Compiler::GrammarCompiler do
   specify "compilation of a single file without writing it to an output file" do
     compiler.ruby_source(source_path_with_treetop_extension).should_not be_nil
   end
-  
+
   specify "ruby_source_from_string compiles a grammar stored in string" do
     compiler.ruby_source_from_string(File.read(source_path_with_treetop_extension)).should_not be_nil
   end
@@ -60,11 +60,11 @@ describe Compiler::GrammarCompiler do
     Test::GrammarParser.new.parse('foo').should_not be_nil
   end
 
-  specify "Treetop.load compiles and evaluates a source grammar with a .treetop extension" do    
+  specify "Treetop.load compiles and evaluates a source grammar with a .treetop extension" do
     Treetop.load source_path_with_treetop_extension
     Test::GrammarParser.new.parse('foo').should_not be_nil
   end
-  
+
   specify "Treetop.load compiles and evaluates a source grammar with a .tt extension" do
     path_without_extension = source_path_with_tt_extension
     Treetop.load path_without_extension
@@ -76,6 +76,11 @@ describe Compiler::GrammarCompiler do
     path_without_extension = source_path_with_treetop_extension.gsub(/\.treetop\Z/, '')
     Treetop.load path_without_extension
     Test::GrammarParser.new.parse('foo').should_not be_nil
+  end
+
+  specify "Compiles parser also as nested class" do
+    Treetop.load source_path_with_treetop_extension
+    Test::Grammar::Parser.new.parse('foo').should_not be_nil
   end
 
   specify "grammars with 'do' compile" do
