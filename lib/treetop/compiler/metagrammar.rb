@@ -799,13 +799,19 @@ module Treetop
           r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
           r0 = r1
         else
-          r2 = _nt_include_declaration
+          r2 = _nt_parsing_endless_rule
           if r2
             r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
             r0 = r2
           else
-            @index = i0
-            r0 = nil
+            r3 = _nt_include_declaration
+            if r3
+              r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
+              r0 = r3
+            else
+              @index = i0
+              r0 = nil
+            end
           end
         end
 
@@ -1024,6 +1030,188 @@ module Treetop
         end
 
         node_cache[:parsing_rule][start_index] = r0
+
+        r0
+      end
+
+      module ParsingEndlessRule0
+        def nonterminal
+          elements[2]
+        end
+
+        def parsing_expression
+          elements[6]
+        end
+
+      end
+
+      def _nt_parsing_endless_rule
+        start_index = index
+        if node_cache[:parsing_endless_rule].has_key?(index)
+          cached = node_cache[:parsing_endless_rule][index]
+          if cached
+            node_cache[:parsing_endless_rule][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+            @index = cached.interval.end
+          end
+          return cached
+        end
+
+        i0, s0 = index, []
+        if (match_len = has_terminal?('rule', false, index))
+          r1 = instantiate_node(SyntaxNode,input, index...(index + match_len))
+          @index += match_len
+        else
+          terminal_parse_failure('\'rule\'')
+          r1 = nil
+        end
+        s0 << r1
+        if r1
+          s2, i2 = [], index
+          loop do
+            if has_terminal?(@regexps[gr = '\A[ \\t]'] ||= Regexp.new(gr), :regexp, index)
+              r3 = true
+              @index += 1
+            else
+              terminal_parse_failure('[ \\t]')
+              r3 = nil
+            end
+            if r3
+              s2 << r3
+            else
+              break
+            end
+          end
+          if s2.empty?
+            @index = i2
+            r2 = nil
+          else
+            r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
+          end
+          s0 << r2
+          if r2
+            r4 = _nt_nonterminal
+            s0 << r4
+            if r4
+              s5, i5 = [], index
+              loop do
+                if has_terminal?(@regexps[gr = '\A[ \\t]'] ||= Regexp.new(gr), :regexp, index)
+                  r6 = true
+                  @index += 1
+                else
+                  terminal_parse_failure('[ \\t]')
+                  r6 = nil
+                end
+                if r6
+                  s5 << r6
+                else
+                  break
+                end
+              end
+              r5 = instantiate_node(SyntaxNode,input, i5...index, s5)
+              s0 << r5
+              if r5
+                if (match_len = has_terminal?('=', false, index))
+                  r7 = true
+                  @index += match_len
+                else
+                  terminal_parse_failure('\'=\'')
+                  r7 = nil
+                end
+                s0 << r7
+                if r7
+                  s8, i8 = [], index
+                  loop do
+                    if has_terminal?(@regexps[gr = '\A[ \\t]'] ||= Regexp.new(gr), :regexp, index)
+                      r9 = true
+                      @index += 1
+                    else
+                      terminal_parse_failure('[ \\t]')
+                      r9 = nil
+                    end
+                    if r9
+                      s8 << r9
+                    else
+                      break
+                    end
+                  end
+                  r8 = instantiate_node(SyntaxNode,input, i8...index, s8)
+                  s0 << r8
+                  if r8
+                    r10 = _nt_parsing_expression
+                    s0 << r10
+                    if r10
+                      i11 = index
+                      r12 = lambda { |v| v.first.text_value !~ /[\n\r]/ }.call(s0)
+                      if !r12
+                        terminal_parse_failure("<semantic predicate>")
+                      end
+                      if r12
+                        @index = i11
+                        r11 = instantiate_node(SyntaxNode,input, index...index)
+                      else
+                        @index = i11
+                        r11 = nil
+                      end
+                      s0 << r11
+                      if r11
+                        s13, i13 = [], index
+                        loop do
+                          i14 = index
+                          if has_terminal?(@regexps[gr = '\A[ \\t]'] ||= Regexp.new(gr), :regexp, index)
+                            r15 = true
+                            @index += 1
+                          else
+                            terminal_parse_failure('[ \\t]')
+                            r15 = nil
+                          end
+                          if r15
+                            r15 = SyntaxNode.new(input, (index-1)...index) if r15 == true
+                            r14 = r15
+                          else
+                            r16 = _nt_comment_to_eol
+                            if r16
+                              r16 = SyntaxNode.new(input, (index-1)...index) if r16 == true
+                              r14 = r16
+                            else
+                              @index = i14
+                              r14 = nil
+                            end
+                          end
+                          if r14
+                            s13 << r14
+                          else
+                            break
+                          end
+                        end
+                        r13 = instantiate_node(SyntaxNode,input, i13...index, s13)
+                        s0 << r13
+                        if r13
+                          if has_terminal?(@regexps[gr = '\A[\\n\\r]'] ||= Regexp.new(gr), :regexp, index)
+                            r17 = true
+                            @index += 1
+                          else
+                            terminal_parse_failure('[\\n\\r]')
+                            r17 = nil
+                          end
+                          s0 << r17
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+        if s0.last
+          r0 = instantiate_node(ParsingRule,input, i0...index, s0)
+          r0.extend(ParsingEndlessRule0)
+        else
+          @index = i0
+          r0 = nil
+        end
+
+        node_cache[:parsing_endless_rule][start_index] = r0
 
         r0
       end

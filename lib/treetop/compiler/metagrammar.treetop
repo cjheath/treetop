@@ -55,7 +55,7 @@ module Treetop
       end
 
       rule declaration
-        parsing_rule / include_declaration
+        parsing_rule / parsing_endless_rule / include_declaration
       end
 
       rule include_declaration
@@ -68,6 +68,10 @@ module Treetop
 
       rule parsing_rule
         'rule' space nonterminal space ('do' space)? parsing_expression space 'end' <ParsingRule>
+      end
+
+      rule parsing_endless_rule
+        'rule' [ \t]+ nonterminal [ \t]* '=' [ \t]* parsing_expression &{ |v| v.first.text_value !~ /[\n\r]/ } ([ \t] / comment_to_eol)* [\n\r] <ParsingRule>
       end
 
       rule parsing_expression
