@@ -71,7 +71,10 @@ module Treetop
       end
 
       rule parsing_endless_rule
-        'rule' [ \t]+ nonterminal [ \t]* '=' [ \t]* parsing_expression &{ |v| v.first.text_value !~ /[\n\r]/ } ([ \t] / comment_to_eol)* [\n\r] <ParsingRule>
+        'rule' nbwhite+ nonterminal nbwhite* '=' nbwhite*
+	  parsing_expression &{ |v| v.last.text_value !~ /[\n\r]/ } # Parsing expression must not break line
+	  (nbwhite / comment_to_eol)* eol+
+	  <ParsingRule>
       end
 
       rule parsing_expression
@@ -580,6 +583,14 @@ module Treetop
 
       rule comment_to_eol
         '#' (!"\n" .)*
+      end
+
+      rule nbwhite
+        [ \t]
+      end
+
+      rule eol
+        [\n\r]
       end
 
       rule white

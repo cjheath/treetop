@@ -1068,13 +1068,7 @@ module Treetop
         if r1
           s2, i2 = [], index
           loop do
-            if has_terminal?(@regexps[gr = '\A[ \\t]'] ||= Regexp.new(gr), :regexp, index)
-              r3 = true
-              @index += 1
-            else
-              terminal_parse_failure('[ \\t]')
-              r3 = nil
-            end
+            r3 = _nt_nbwhite
             if r3
               s2 << r3
             else
@@ -1094,13 +1088,7 @@ module Treetop
             if r4
               s5, i5 = [], index
               loop do
-                if has_terminal?(@regexps[gr = '\A[ \\t]'] ||= Regexp.new(gr), :regexp, index)
-                  r6 = true
-                  @index += 1
-                else
-                  terminal_parse_failure('[ \\t]')
-                  r6 = nil
-                end
+                r6 = _nt_nbwhite
                 if r6
                   s5 << r6
                 else
@@ -1121,13 +1109,7 @@ module Treetop
                 if r7
                   s8, i8 = [], index
                   loop do
-                    if has_terminal?(@regexps[gr = '\A[ \\t]'] ||= Regexp.new(gr), :regexp, index)
-                      r9 = true
-                      @index += 1
-                    else
-                      terminal_parse_failure('[ \\t]')
-                      r9 = nil
-                    end
+                    r9 = _nt_nbwhite
                     if r9
                       s8 << r9
                     else
@@ -1141,7 +1123,7 @@ module Treetop
                     s0 << r10
                     if r10
                       i11 = index
-                      r12 = lambda { |v| v.first.text_value !~ /[\n\r]/ }.call(s0)
+                      r12 = lambda { |v| v.last.text_value !~ /[\n\r]/ }.call(s0)
                       if !r12
                         terminal_parse_failure("<semantic predicate>")
                       end
@@ -1157,13 +1139,7 @@ module Treetop
                         s13, i13 = [], index
                         loop do
                           i14 = index
-                          if has_terminal?(@regexps[gr = '\A[ \\t]'] ||= Regexp.new(gr), :regexp, index)
-                            r15 = true
-                            @index += 1
-                          else
-                            terminal_parse_failure('[ \\t]')
-                            r15 = nil
-                          end
+                          r15 = _nt_nbwhite
                           if r15
                             r15 = SyntaxNode.new(input, (index-1)...index) if r15 == true
                             r14 = r15
@@ -1186,12 +1162,20 @@ module Treetop
                         r13 = instantiate_node(SyntaxNode,input, i13...index, s13)
                         s0 << r13
                         if r13
-                          if has_terminal?(@regexps[gr = '\A[\\n\\r]'] ||= Regexp.new(gr), :regexp, index)
-                            r17 = true
-                            @index += 1
-                          else
-                            terminal_parse_failure('[\\n\\r]')
+                          s17, i17 = [], index
+                          loop do
+                            r18 = _nt_eol
+                            if r18
+                              s17 << r18
+                            else
+                              break
+                            end
+                          end
+                          if s17.empty?
+                            @index = i17
                             r17 = nil
+                          else
+                            r17 = instantiate_node(SyntaxNode,input, i17...index, s17)
                           end
                           s0 << r17
                         end
@@ -4391,6 +4375,54 @@ module Treetop
         end
 
         node_cache[:comment_to_eol][start_index] = r0
+
+        r0
+      end
+
+      def _nt_nbwhite
+        start_index = index
+        if node_cache[:nbwhite].has_key?(index)
+          cached = node_cache[:nbwhite][index]
+          if cached
+            node_cache[:nbwhite][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+            @index = cached.interval.end
+          end
+          return cached
+        end
+
+        if has_terminal?(@regexps[gr = '\A[ \\t]'] ||= Regexp.new(gr), :regexp, index)
+          r0 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
+        else
+          terminal_parse_failure('[ \\t]')
+          r0 = nil
+        end
+
+        node_cache[:nbwhite][start_index] = r0
+
+        r0
+      end
+
+      def _nt_eol
+        start_index = index
+        if node_cache[:eol].has_key?(index)
+          cached = node_cache[:eol][index]
+          if cached
+            node_cache[:eol][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+            @index = cached.interval.end
+          end
+          return cached
+        end
+
+        if has_terminal?(@regexps[gr = '\A[\\n\\r]'] ||= Regexp.new(gr), :regexp, index)
+          r0 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
+        else
+          terminal_parse_failure('[\\n\\r]')
+          r0 = nil
+        end
+
+        node_cache[:eol][start_index] = r0
 
         r0
       end
