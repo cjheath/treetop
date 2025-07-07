@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/cjheath/treetop.svg)](https://travis-ci.org/cjheath/treetop)
+[![build](https://github.com/cjheath/treetop/actions/workflows/ci.yml/badge.svg)](https://github.com/cjheath/treetop/actions/workflows/ci.yml)
 
 Support
 =======
