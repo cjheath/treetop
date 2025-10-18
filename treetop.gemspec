@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Nathan Sobo", "Clifford Heath"]
 
   spec.email = "cliffordheath@gmail.com"
-  spec.date = Date.today.strftime("%F")
+  spec.date = Date.parse(`git show -s --format=%ci`)
   spec.summary = "A Ruby-based text parsing and interpretation DSL"
   spec.description = "A Parsing Expression Grammar (PEG) Parser generator DSL for Ruby"
   spec.homepage = "https://github.com/cjheath/treetop"
@@ -25,10 +25,10 @@ Gem::Specification.new do |spec|
   ]
 
   spec.add_runtime_dependency(%q<polyglot>, ["~> 0.3"])
-  spec.add_development_dependency(%q<activesupport>, [">= 4"])
+  spec.add_development_dependency(%q<activesupport>, ["~> 4"])
   spec.add_development_dependency(%q<i18n>, ["~> 1.0"])
   spec.add_development_dependency(%q<rr>, ["~> 3.0"])
   spec.add_development_dependency(%q<rspec>, ["~> 3"])
-  spec.add_development_dependency(%q<rake>, [">= 11"])
+  spec.add_development_dependency(%q<rake>, ["~> 11"])
 end
 
