@@ -10,7 +10,16 @@ Gem::Specification.new do |spec|
   spec.authors = ["Nathan Sobo", "Clifford Heath"]
 
   spec.email = "cliffordheath@gmail.com"
-  spec.date = Date.today.strftime("%F")
+
+  # Honor SOURCE_DATE_EPOCH for reproducible builds
+  source_date_epoch = ENV['SOURCE_DATE_EPOCH']
+  spec.date =
+    if source_date_epoch
+      Time.at(Integer(source_date_epoch)).utc.strftime("%F")
+    else
+      Date.today.strftime("%F")
+    end
+
   spec.summary = "A Ruby-based text parsing and interpretation DSL"
   spec.description = "A Parsing Expression Grammar (PEG) Parser generator DSL for Ruby"
   spec.homepage = "https://github.com/cjheath/treetop"
