@@ -68,7 +68,7 @@ describe "The 'tt' comand line compiler" do
 
     it 'skips nonexistent grammar file without failing or creating bogus output' do
       # puts %q{emulate 'tt dumb.bad'}
-      Kernel.open("|ruby -S tt #{@test_base}.bad") do |io|
+      IO.popen("ruby -S tt #{@test_base}.bad", "r") do |io|
         (io.read =~ /ERROR.*?not exist.*?continuing/).should_not be_nil
       end
 
@@ -107,7 +107,7 @@ describe "The 'tt' comand line compiler" do
         # File.open(pf, "r+") { |f| s = f.read; s.sub!(/generated/, 'broken'); f.rewind; f.write(s) }
         orig_file_hash = Digest::SHA1.hexdigest(File.read(pf))
 
-        Kernel.open("|ruby -S tt -o #{pf} #{@test_path}") do |io|
+        IO.popen("ruby -S tt -o #{pf} #{@test_path}", "r") do |io|
           (io.read =~ /ERROR.*?already exists.*?skipping/).should_not be_nil
         end
 

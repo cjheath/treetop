@@ -25,7 +25,6 @@ Gem::Specification.new do |spec|
   ]
 
   spec.add_runtime_dependency(%q<polyglot>, ["~> 0.3"])
-  spec.add_development_dependency(%q<activesupport>, ["~> 4"])
   spec.add_development_dependency(%q<i18n>, ["~> 1.0"])
   spec.add_development_dependency(%q<rr>, ["~> 3.0"])
   spec.add_development_dependency(%q<rspec>, ["~> 3"])

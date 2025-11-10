@@ -68,6 +68,7 @@ module Treetop
       result
     end
 
+    # This test is redundant because multibyte string behaviour is ubiquitous now.
     def parse_multibyte(input, options = {})
       require 'logger'
       require 'active_support/all'
@@ -76,7 +77,7 @@ module Treetop
       # rspec 1.3 used to do something similar (set it to 'u') that we need
       # for activerecord multibyte wrapper to kick in (1.8 only? @todo)
 
-      parse(input.mb_chars, options)
+      parse(input, options)
     end
 
     def compiling_grammar(grammar_under_test)
