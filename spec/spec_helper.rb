@@ -71,7 +71,6 @@ module Treetop
     # This test is redundant because multibyte string behaviour is ubiquitous now.
     def parse_multibyte(input, options = {})
       require 'logger'
-      require 'active_support/all'
 
       if RUBY_VERSION !~ /^(1\.9|2\.)/ && 'NONE' == $KCODE then $KCODE = 'UTF8' end
       # rspec 1.3 used to do something similar (set it to 'u') that we need
