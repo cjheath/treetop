@@ -4457,7 +4457,7 @@ module Treetop
       end
     end
 
-    MetagrammarParser = Metagrammar::Parser
+    remove_const(:MetagrammarParser) if const_defined?(:MetagrammarParser); MetagrammarParser = Metagrammar::Parser
 
   end
 end

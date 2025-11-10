@@ -15,7 +15,7 @@ module Treetop
           end
         end
         builder.newline
-        builder << "#{parser_name} = #{grammar_name.text_value}::Parser"
+        builder << "remove_const(:#{parser_name}) if const_defined?(:#{parser_name}); #{parser_name} = #{grammar_name.text_value}::Parser"
       end
 
       def indent_level
