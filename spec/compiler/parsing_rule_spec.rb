@@ -72,5 +72,16 @@ module ParsingRuleSpec
       result = parse('boo')
       result.should_not be_nil
     end
+
+    context "breaking rule defination" do
+      it "does not parse" do
+        compiling_grammar(%{
+          grammar EndlessRule
+            rule foo = ('should'
+              ' fail')
+          end
+        }).should raise_error RuntimeError
+      end
+    end
   end
 end
